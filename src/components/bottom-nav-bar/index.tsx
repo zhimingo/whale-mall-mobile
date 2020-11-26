@@ -41,12 +41,15 @@ const barItems = [
   },
 ];
 
-interface BottomNavBarProps {}
+interface BottomNavBarProps {
+  onCurrentChange(currentIndex: number): void;
+}
 
 const BottomNavBar: React.FC<BottomNavBarProps> = (props) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const onBarItemClick = (index: number) => {
     setCurrentIndex(index);
+    props.onCurrentChange(index);
   };
   return (
     <div className="bottom-nav-bar">
