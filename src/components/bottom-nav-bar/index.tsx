@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { v4 as uuidv4 } from 'uuid';
 
 import './index.scss';
 import Home from '../../assets/icons/home.png';
@@ -12,31 +13,53 @@ import ShoppingCartFill from '../../assets/icons/shopping_cart_fill.png';
 import Explore from '../../assets/icons/explore.png';
 import ExploreFill from '../../assets/icons/explore_fill.png';
 
-function BottomNavBar() {
+const barItems = [
+  {
+    defaultIcon: Home,
+    activeIcon: HomeFill,
+    title: '首页',
+  },
+  {
+    defaultIcon: More,
+    activeIcon: MoreFill,
+    title: '分类',
+  },
+  {
+    defaultIcon: Explore,
+    activeIcon: ExploreFill,
+    title: '探索',
+  },
+  {
+    defaultIcon: ShoppingCart,
+    activeIcon: ShoppingCartFill,
+    title: '购物车',
+  },
+  {
+    defaultIcon: My,
+    activeIcon: MyFill,
+    title: '我的',
+  },
+];
+
+interface BottomNavBarProps {}
+
+const BottomNavBar: React.FC<BottomNavBarProps> = (props) => {
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const onBarItemClick = (index: number) => {
+    setCurrentIndex(index);
+  };
   return (
     <div className="bottom-nav-bar">
-      <div className="bottom-nav-bar-item">
-        <img src={Home} alt="home" />
-        <div>首页</div>
-      </div>
-      <div className="bottom-nav-bar-item">
-        <img src={More} alt="home" />
-        <div>分类</div>
-      </div>
-      <div className="bottom-nav-bar-item">
-        <img src={Explore} alt="home" />
-        <div>探索</div>
-      </div>
-      <div className="bottom-nav-bar-item">
-        <img src={ShoppingCart} alt="home" />
-        <div>购物车</div>
-      </div>
-      <div className="bottom-nav-bar-item">
-        <img src={My} alt="home" />
-        <div>我的</div>
-      </div>
+      {barItems.map((item, index) => (
+        <div className="bottom-nav-bar-item" key={uuidv4()} onClick={() => onBarItemClick(index)}>
+          <img src={index === currentIndex ? item.activeIcon : item.defaultIcon} alt={item.title} />
+          <div>{item.title}</div>
+        </div>
+      ))}
     </div>
   );
-}
+};
+
+BottomNavBar.defaultProps = {};
 
 export default BottomNavBar;
